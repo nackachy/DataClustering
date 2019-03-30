@@ -29,6 +29,7 @@ Before executing the code, you have to change the data path existing in "src/mai
     inputClusterNumber =
 
 * **inputData** is the path where Brisbane_CityBike.json exists.
+* **inputClusterNumber** is the number of clusters chosen to cluster the data.
 
 ## Running project on Spark
 
