@@ -14,9 +14,13 @@ class Classify{
       .setInputCols(Array("latitude","longitude"))
       .setOutputCol("features")
 
+
     // Initializing the KMeans clustering model (3 clusters to have)
+    val inputClusterNumber = new prop
+
     val kmeans = new KMeans()
-      .setK(3).setSeed(1L)
+      .setK(inputClusterNumber.getProp("inputClusterNumber").toInt)
+      .setSeed(1L)
       .setFeaturesCol("features")
       .setPredictionCol("cluster")
 

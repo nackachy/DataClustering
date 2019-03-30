@@ -1,6 +1,7 @@
 
 import org.scalatest.BeforeAndAfterEach
 import com.DataVectis.Clustering.Classify
+import com.DataVectis.Clustering.prop
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FunSuite
 
@@ -26,9 +27,20 @@ class GivenWhenThen extends FunSuite with BeforeAndAfterEach {
   // testing if the data is successfully loaded
 
   test("Check Data Loading") {
-    val dataset = spark.read.json("Brisbane_CityBike.json").toDF()
+
+    val inputData = new prop
+
+    val dataset = spark.read.json(inputData.getProp("inputData")).toDF()
 
     assert(dataset.columns.size > 0)
+  }
+
+  // testing if the input number of clusters is more than 1
+
+  test("Check Clusters number") {
+
+    val inputClusterNumber = new prop
+    assert(inputClusterNumber.getProp("inputClusterNumber").toInt > 1)
   }
 
 
@@ -36,7 +48,10 @@ class GivenWhenThen extends FunSuite with BeforeAndAfterEach {
 
   test("Checking Clustering") {
 
-    val dataset = spark.read.json("Brisbane_CityBike.json").toDF()
+    val inputData = new prop
+
+    val dataset = spark.read.json(inputData.getProp("inputData")).toDF()
+
     val mod = new Classify
 
     val modelToClussify = mod.getModel(dataset)
