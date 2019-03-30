@@ -9,12 +9,12 @@ class Classify{
 
   def getModel(dataFrame: DataFrame) = {
 
-    // Assembling the Vector of input data wish is station positions (latitude and longitude)
+    // Assembling the Vectors used in clustering (latitude and longitude)
     val assembler = new VectorAssembler()
       .setInputCols(Array("latitude","longitude"))
       .setOutputCol("features")
 
-    // Initializing the KMeans clustering model
+    // Initializing the KMeans clustering model (3 clusters to have)
     val kmeans = new KMeans()
       .setK(3).setSeed(1L)
       .setFeaturesCol("features")
