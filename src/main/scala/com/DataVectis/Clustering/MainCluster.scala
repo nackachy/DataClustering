@@ -20,7 +20,7 @@ object MainCluster {
     val inputData = new prop
 
     // Importing data
-    val dataset = spark.read.json(System.getProperty("user.dir").concat(inputData.getProp("inputData")))
+    val dataset = spark.read.json(inputData.getProp("inputData"))
 
     // Creating an instance from "Classify.scala" Class to get the model of clustering
     val mod = new Classify
