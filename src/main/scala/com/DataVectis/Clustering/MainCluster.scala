@@ -1,8 +1,9 @@
 package com.DataVectis.Clustering
 
 import org.apache.spark.sql.SparkSession
-import vegas._
-import vegas.sparkExt._
+import java.util.regex.Pattern
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, Path}
 
 object MainCluster {
 
@@ -15,7 +16,37 @@ object MainCluster {
       .getOrCreate()
 
 
+    val hdfs = FileSystem.get(new Configuration())
 
+    def listFileNames(hdfsPath: String): List[String] = {
+
+      hdfs
+        .listStatus(new Path(hdfsPath))
+        .flatMap { status =>
+          // If it's a file:
+          if (status.isFile)
+            List(hdfsPath + "/" + status.getPath.getName)
+          // If it's a dir and we're in a recursive option:
+          else
+            listFileNames(hdfsPath + "/" + status.getPath.getName)
+        }
+        .toList
+        .sorted
+    }
+
+    val files = listFileNames("C:\\Users\\Lenovo\\Downloads\\Compressed\\citybikes-clustering-master")
+
+    for (f <- files) {
+      val p = Pattern.compile("(.+?)Brisbane_CityBike.json") // regex to identify files names and extensions
+      val m = p.matcher(f)
+
+      if (m.find()) {
+
+        println(f.replaceAll("\\\\","/"))
+      }
+    }
+
+/*
     //Getting path from "application.properties" using the method "Prop" from "Properties.scala"
     val inputData = new prop
 
@@ -37,6 +68,6 @@ object MainCluster {
     // Ploting Individuals according to Clusters laels
     val plot = new DataViz
     plot.View(clusters.toDF(),"Clusters")
-
+*/
   }
 }

@@ -1,4 +1,3 @@
-import sbt._, Keys._
 name := "DataClustering"
 
 scalaVersion := "2.11.7"
@@ -10,3 +9,6 @@ libraryDependencies ++= Seq(
   "org.vegas-viz" %% "vegas-spark" % "0.3.9",
   "org.apache.spark" %% "spark-mllib" % "2.1.0"
 )
+
+// for accessing files from S3 or HDFS
+libraryDependencies += "org.apache.hadoop" % "hadoop-client" % "2.7.0" exclude("com.google.guava", "guava")
