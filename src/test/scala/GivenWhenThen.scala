@@ -1,6 +1,6 @@
 
 import org.scalatest.BeforeAndAfterEach
-import com.DataVectis.Clustering.Classify
+import com.DataVectis.Clustering.Clustering
 import com.DataVectis.Clustering.prop
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FunSuite
@@ -52,11 +52,11 @@ class GivenWhenThen extends FunSuite with BeforeAndAfterEach {
 
     val dataset = spark.read.json(inputData.getProp("inputData")).toDF()
 
-    val mod = new Classify
+    val mod = new Clustering
 
-    val modelToClussify = mod.getModel(dataset)
+    val modelToClustering = mod.getModel(dataset)
 
-    val clusters = modelToClussify.transform(dataset)
+    val clusters = modelToClustering.transform(dataset)
 
     assert(clusters.toDF().columns.size > dataset.columns.size)
 

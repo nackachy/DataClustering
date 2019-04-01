@@ -5,7 +5,7 @@ import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.Pipeline
 
-class Classify{
+class Clustering{
 
   def getModel(dataFrame: DataFrame) = {
 
