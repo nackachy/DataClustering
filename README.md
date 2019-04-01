@@ -60,7 +60,7 @@ This is how the result would look like.
 
 This plot is developped with an R code ***DataViz.R***.
 
-![Data Plot](https://github.com/nackachy/DataClustering/blob/master/Map.PNG)
+![Data Plot](https://github.com/nackachy/DataClustering/blob/master/Map.png)
 
 
 
