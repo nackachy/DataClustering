@@ -30,6 +30,7 @@ Before executing the code, you have to change the data path existing in "src/mai
 
 * **inputData** is the path where Brisbane_CityBike.json exists.
 * **inputClusterNumber** is the number of clusters chosen to cluster the data.
+* **outPutData** is the path where clustered Data will be saved.
 
 ## Running project on Spark
 
@@ -57,7 +58,9 @@ This is how the result would look like.
 
 ***Data Plot***
 
-![Data Plot](https://github.com/nackachy/DataClustering/blob/master/clusters.PNG)
+This plot is developped with an R code ***DataViz.R***.
+
+![Data Plot](https://github.com/nackachy/DataClustering/blob/master/Map.PNG)
 
 
 
