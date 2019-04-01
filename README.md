@@ -25,8 +25,9 @@ The purpose of this project is to cluster Brisbane_CityBike based on longitude a
 
 Before executing the code, you have to change the data path existing in "src/main/ressources/application.properties" and the cluster number of your choice (by default 3)
 
-    inputData =
-    inputClusterNumber =
+    inputData=
+    inputClusterNumber=
+    outPutData=
 
 * **inputData** is the path where Brisbane_CityBike.json exists.
 * **inputClusterNumber** is the number of clusters chosen to cluster the data.
