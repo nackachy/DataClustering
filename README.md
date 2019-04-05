@@ -43,7 +43,7 @@ This will produce a jar containing the compiled project
 
 Then you can submit the job using **spark-submit** :
 
-    ./bin/spark-submit --class "com.DataVectis.clustering.Run"
+    ./bin/spark-submit --class "com.DataVectis.clustering.MainCluster"
               --master local 
               path/to/your/jar.jar
 
