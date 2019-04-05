@@ -1,8 +1,10 @@
 package com.DataVectis.Clustering
 
 import java.io.{ByteArrayOutputStream, File, PrintWriter}
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-import org.apache.spark.sql.{SparkSession}
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import scala.Console.withOut
 import java.util.logging.{Level, Logger}
@@ -55,11 +57,11 @@ object MainCluster {
     val pw = new PrintWriter(
       new File(outPutData.getProp("outPutData") + "/" + fileOutPutName.getProp("fileOutPutName"))
     )
-    pw.write("")
+    pw.write(result)
     pw.close
-    new PrintWriter(outPutData.getProp("outPutData") + "/" + fileOutPutName.getProp("fileOutPutName")) {
-      write(result); close
-    }
+
+
+    val getDate = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm").format(LocalDateTime.now)
 
     logger.log(Level.INFO, "Clustered data has been saved in ", outPutData.getProp("outPutData"))
 
