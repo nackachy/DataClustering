@@ -48,6 +48,35 @@ object MainCluster {
     clusters.drop("features").show()
     //saving Data
 
+    import org.apache.hadoop.conf.Configuration
+    import org.apache.hadoop.fs._
+
+    def merge(srcPath: String, dstPath: String): Unit =  {
+      val hadoopConfig = new Configuration()
+      val hdfs = FileSystem.get(hadoopConfig)
+      FileUtil.copyMerge(hdfs, new Path(srcPath), hdfs, new Path(dstPath), true, hadoopConfig, null)
+      // the "true" setting deletes the source files once they are merged into the new output
+    }
+
+
+
+    val outputfile = "/user/chiheb/DataOutput"
+    var filename = "myinsights"
+    var outputFileName = outputfile + "/temp_" + filename
+    var mergedFileName = outputfile + "/merged_" + filename
+    var mergeFindGlob  = outputFileName
+
+    clusters.drop("features").write
+      .format("com.databricks.spark.csv")
+      .option("header", "false")
+      .mode("overwrite")
+      .save(outputFileName)
+
+
+    merge(mergeFindGlob, mergedFileName )
+    clusters.drop("features").unpersist()
+
+/*
     val outCapture = new ByteArrayOutputStream
     withOut(outCapture) {
       clusters.rdd.map(_.mkString(",")).collect.foreach(println)
@@ -62,7 +91,7 @@ object MainCluster {
 
 
     val getDate = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm").format(LocalDateTime.now)
-
+*/
     logger.log(Level.INFO, "Clustered data has been saved in ", outPutData.getProp("outPutData"))
 
     spark.close()
