@@ -5,6 +5,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem
+import org.apache.hadoop.fs.Path
+import java.io.PrintWriter
 
 import scala.Console.withOut
 import java.util.logging.{Level, Logger}
@@ -48,6 +52,18 @@ object MainCluster {
     clusters.drop("features").show()
     //saving Data
 
+    val outCapture = new ByteArrayOutputStream
+    withOut(outCapture) {
+      clusters.rdd.map(_.mkString(",")).collect.foreach(println)
+    }
+    val result = new String(outCapture.toByteArray)
+
+    val conf = new Configuration()
+    val fs= FileSystem.get(conf)
+    val os = fs.create(new Path("DataClustering/DataOutput/class.txt"))
+    os.write(result.getBytes)
+
+    /*
     import org.apache.hadoop.conf.Configuration
     import org.apache.hadoop.fs._
 
@@ -77,7 +93,7 @@ object MainCluster {
     clusters.drop("features").unpersist()
 
 
-/*
+
     val outCapture = new ByteArrayOutputStream
     withOut(outCapture) {
       clusters.rdd.map(_.mkString(",")).collect.foreach(println)
