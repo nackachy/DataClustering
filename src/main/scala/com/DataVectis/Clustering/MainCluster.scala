@@ -48,14 +48,13 @@ object MainCluster {
     clusters.drop("features").show()
     //saving Data
 
-    /*
     import org.apache.hadoop.conf.Configuration
     import org.apache.hadoop.fs._
 
     def merge(srcPath: String, dstPath: String): Unit =  {
       val hadoopConfig = new Configuration()
       val hdfs = FileSystem.get(hadoopConfig)
-      FileUtil.copyMerge(hdfs, new Path(srcPath), hdfs, new Path(dstPath), true, hadoopConfig, null)
+      FileUtil.copyMerge(hdfs, new Path(srcPath), hdfs, new Path(dstPath), false, hadoopConfig, null)
       // the "true" setting deletes the source files once they are merged into the new output
     }
 
@@ -76,7 +75,7 @@ object MainCluster {
 
     merge(mergeFindGlob, mergedFileName )
     clusters.drop("features").unpersist()
-    */
+
 
 /*
     val outCapture = new ByteArrayOutputStream
