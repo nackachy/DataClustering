@@ -25,15 +25,23 @@ The purpose of this project is to cluster Brisbane_CityBike based on longitude a
 
 Before executing the code, you have to change the data path existing in "src/main/ressources/application.properties" and the cluster number of your choice (by default 3)
 
-    inputData=
+    inputData=DataClustering/DataInput/Brisbane_CityBike.json
     inputClusterNumber=
+    master=
+    appName=
+    nameOfColumnCluster=
     outPutData=
+    fileOutPutName=
 
 * **inputData** is the path where Brisbane_CityBike.json exists.
 * **inputClusterNumber** is the number of clusters chosen to cluster the data.
+* **master
+* **appName** is the name of the app.
+* **nameOfColumnCluster** name of cluser columns.
 * **outPutData** is the path where clustered Data will be saved.
+* **fileOutPutName** is the name chosen for outputData.
 
-## Running project on Spark
+## Running project on YARN
 
 To build the project, run : 
 
@@ -43,9 +51,7 @@ This will produce a jar containing the compiled project
 
 Then you can submit the job using **spark-submit** :
 
-    ./bin/spark-submit --class "com.DataVectis.clustering.MainCluster"
-              --master local 
-              path/to/your/jar.jar
+    spark-submit --class com.DataVectis.Clustering.MainCluster --master yarn DataClustering/scripts/dataclustering_2.11-0.1.0-    SNAPSHOT.jar
 
 ## Results
 
