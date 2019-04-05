@@ -48,6 +48,7 @@ object MainCluster {
     clusters.drop("features").show()
     //saving Data
 
+    /*
     import org.apache.hadoop.conf.Configuration
     import org.apache.hadoop.fs._
 
@@ -75,6 +76,7 @@ object MainCluster {
 
     merge(mergeFindGlob, mergedFileName )
     clusters.drop("features").unpersist()
+    */
 
 /*
     val outCapture = new ByteArrayOutputStream
