@@ -2,15 +2,16 @@ package com.DataVectis.Clustering
 
 import java.io.{ByteArrayOutputStream, File, PrintWriter}
 
-import org.apache.spark.sql.{SaveMode, SparkSession}
-import java.util.regex.Pattern
+import org.apache.spark.sql.{SparkSession}
 
 import scala.Console.withOut
-import scala.util.control.Breaks.{break, breakable}
+import java.util.logging.{Level, Logger}
 
 object MainCluster {
 
   def main(args: Array[String]) {
+
+    val logger = Logger.getLogger(getClass.getName)
 
     // Initializing SparkContext
 
@@ -21,10 +22,14 @@ object MainCluster {
       .appName(appName.getProp("appName"))
       .getOrCreate()
 
+    logger.log(Level.INFO, "Spark context has been initialized", spark.sparkContext.appName)
 
     // Importing data
     //Get the appropriate path
     val BrisbaneCityBike = spark.read.json(inputData.getProp("inputData"))
+
+    logger.log(Level.INFO, "Dataset has been imported", BrisbaneCityBike.count())
+
 
     // Creating an instance from "Classify.scala" Class to get the model of clustering
     val mod = new Clustering
@@ -32,11 +37,13 @@ object MainCluster {
     //Creating Model
     val modelToCluster = mod.getModel(BrisbaneCityBike)
 
+    logger.log(Level.INFO, "Model Created")
+
     // Adding Cluster Labels to our data
     val clusters = modelToCluster.transform(BrisbaneCityBike)
 
     //Show Data
-    clusters.show()
+    clusters.drop("features").show()
     //saving Data
 
     val outCapture = new ByteArrayOutputStream
@@ -54,7 +61,9 @@ object MainCluster {
       write(result); close
     }
 
+    logger.log(Level.INFO, "Clustered data has been saved in ", outPutData.getProp("outPutData"))
 
+    spark.close()
   }
 }
 
