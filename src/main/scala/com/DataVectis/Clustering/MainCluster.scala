@@ -1,80 +1,62 @@
 package com.DataVectis.Clustering
 
-import java.io.File
+import java.io.{ByteArrayOutputStream, File, PrintWriter}
 
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import java.util.regex.Pattern
 
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileSystem, Path}
+import scala.Console.withOut
+import scala.util.control.Breaks.{break, breakable}
 
 object MainCluster {
 
   def main(args: Array[String]) {
 
     // Initializing SparkContext
+
+    val master, appName, inputData, outPutData, fileOutPutName = new prop
+
     val spark = SparkSession.builder.
-      master("local")
-      .appName("DataClustering")
+      master(master.getProp("master"))
+      .appName(appName.getProp("appName"))
       .getOrCreate()
 
 
-
-    //Getting path from "application.properties" using the method "Prop" from "Properties.scala"
-    val inputData,outPutData = new prop
-
     // Importing data
-    val dataset = spark.read.json(inputData.getProp("inputData"))
+    //Get the appropriate path
+    val BrisbaneCityBike = spark.read.json(inputData.getProp("inputData"))
 
     // Creating an instance from "Classify.scala" Class to get the model of clustering
     val mod = new Clustering
 
     //Creating Model
-    val modelToClustering = mod.getModel(dataset)
+    val modelToCluster = mod.getModel(BrisbaneCityBike)
 
     // Adding Cluster Labels to our data
-    val clusters = modelToClustering.transform(dataset)
+    val clusters = modelToCluster.transform(BrisbaneCityBike)
 
-    // Displaying Data Clussified
-    clusters.drop("features").show()
+    //Show Data
+    clusters.show()
+    //saving Data
 
-    //Checking if output exists
-    val checkOutputDataPath = new File(outPutData.getProp("outPutData")).mkdir()
+    val outCapture = new ByteArrayOutputStream
+    withOut(outCapture) {
+      clusters.rdd.map(_.mkString(",")).collect.foreach(println)
+    }
+    val result = new String(outCapture.toByteArray)
 
-    if (checkOutputDataPath) {
-      // Saving the dataset with labels
-
-      clusters
-        .repartition(1)
-        .write
-        .mode(SaveMode.Overwrite)
-        .format("com.databricks.spark.csv")
-        .option("header", "true")
-        .option("delimiter", ";")
-        .save(outPutData.getProp("outPutData"))
-
-      println("Data saved in : "+outPutData.getProp("outPutData"))
-    } else{
-
-      println("OutPut Data Path Not Found")
-      println("Creatin Data Path Out Put")
-      new File(outPutData.getProp("outPutData"))
-
-      clusters
-        .repartition(1)
-        .write
-        .mode(SaveMode.Overwrite)
-        .format("com.databricks.spark.csv")
-        .option("header", "true")
-        .option("delimiter", ";")
-        .save(outPutData.getProp("outPutData"))
-
-      println("Data saved in : "+outPutData.getProp("outPutData"))
+    val pw = new PrintWriter(
+      new File(outPutData.getProp("outPutData") + "/" + fileOutPutName.getProp("fileOutPutName"))
+    )
+    pw.write("")
+    pw.close
+    new PrintWriter(outPutData.getProp("outPutData") + "/" + fileOutPutName.getProp("fileOutPutName")) {
+      write(result); close
     }
 
-    // Ploting Individuals according to Clusters laels
-    val plot = new DataViz
-    plot.View(clusters.toDF(),"Clusters")
 
   }
 }
+
+
+
