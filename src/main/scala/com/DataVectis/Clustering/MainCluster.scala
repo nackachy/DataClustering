@@ -60,7 +60,7 @@ object MainCluster {
 
 
 
-    val outputfile = "/user/chiheb/DataOutput"
+    val outputfile = "/user/chiheb/DataClustering/DataOutput"
     var filename = "myinsights"
     var outputFileName = outputfile + "/temp_" + filename
     var mergedFileName = outputfile + "/merged_" + filename
@@ -73,8 +73,8 @@ object MainCluster {
       .save(outputFileName)
 
 
-    merge(mergeFindGlob, mergedFileName )
-    //clusters.drop("features").unpersist()
+    merge(mergeFindGlob, mergedFileName)
+    clusters.drop("features").unpersist()
 
 
 /*
