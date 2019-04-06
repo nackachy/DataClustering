@@ -53,7 +53,7 @@ object MainCluster {
     //saving Data
     val outCapture = new ByteArrayOutputStream
     withOut(outCapture) {
-      println("address;longitude;latitude;name;number;cluster")
+      println("address;longitude;latitude;name;number;predictedCluster")
       clusters.drop("features").rdd.map(_.mkString(";")).collect.foreach(println)
     }
 
