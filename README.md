@@ -38,7 +38,7 @@ The program needs somme properties to be executed. These properties are saved in
 * **inputClusterNumber** : Cluster number to use in cluster.
 * **master** : The master URL for the cluster.
 * **appName** : Application name.
-* **nameOfColumnCluster** : Name of the new column wich contains te clusters.
+* **nameOfColumnCluster** : Name of the new column wich contains the clusters.
 * **outputData** : Path where to save the clustered data.
 * **outputFileName** : Name of the clustered data.
 * **outputFileFormat** : Format of the clustered data to be saved
