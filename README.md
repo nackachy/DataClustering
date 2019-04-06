@@ -23,7 +23,7 @@ The purpose of this project is to cluster ***Brisbane_CityBike*** based on ***lo
 
 ## Configuration
 
-The program need somme properties to be executed. These properties are saved in ***config/application.properties***.
+The program needs somme properties to be executed. These properties are saved in ***config/application.properties***.
 
     inputData=
     inputClusterNumber=
