@@ -12,13 +12,10 @@ class TDD extends FunSuite with BeforeAndAfterEach {
 
   override def beforeEach(): Unit = {
 
-    val appProperties = new prop
-
-    val spark = SparkSession.builder.
-      master(appProperties.getProp("master"))
-      .appName(appProperties.getProp("appName"))
+    spark = SparkSession.builder.
+      master("local")
+      .appName("DataClustering")
       .getOrCreate()
-
 
 
   }
@@ -26,25 +23,25 @@ class TDD extends FunSuite with BeforeAndAfterEach {
   // testing if the data is successfully loaded
 
   test("Check existing Data") {
-    val appProperties = new prop
-    assert(new File(appProperties.getProp("DataInput")).isFile)
+    val testLocalData = new prop
+    assert(new File(testLocalData.getProp("testLocalData")).isFile)
   }
 
   // testing if the input number of clusters is more than 1
 
   test("Check Clusters number") {
 
-    val appProperties = new prop
-    assert(appProperties.getProp("inputClusterNumber").toInt > 1)
+    val inputClusterNumber = new prop
+    assert(inputClusterNumber.getProp("inputClusterNumber").toInt > 1)
   }
 
 
   // testing if the clustering is successfully done
 
   test("Checking Clustering") {
-    val appProperties = new prop
+    val testLocalData = new prop
 
-    val BrisbaneCityBike = spark.read.json(appProperties.getProp("inputData"))
+    val BrisbaneCityBike = spark.read.json(testLocalData.getProp("testLocalData"))
 
     // Creating an instance from "Classify.scala" Class to get the model of clustering
     val mod = new Clustering
