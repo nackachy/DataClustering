@@ -12,3 +12,7 @@ libraryDependencies ++= Seq(
 
 // for accessing files from S3 or HDFS
 libraryDependencies += "org.apache.hadoop" % "hadoop-client" % "2.7.0" exclude("com.google.guava", "guava")
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}

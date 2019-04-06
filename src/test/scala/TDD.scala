@@ -1,6 +1,9 @@
 package com.DataVectis.Clustering
 
 import java.io.File
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.feature.VectorAssembler
 import org.scalatest.BeforeAndAfterEach
 import org.apache.spark.sql.SparkSession
 import org.scalatest.FunSuite
@@ -23,34 +26,35 @@ class TDD extends FunSuite with BeforeAndAfterEach {
   // testing if the data is successfully loaded
 
   test("Check existing Data") {
-    val testLocalData = new prop
-    assert(new File(testLocalData.getProp("testLocalData")).isFile)
+    assert(new File("DataInput/Brisbane_CityBike.json").isFile)
   }
 
-  // testing if the input number of clusters is more than 1
-
-  test("Check Clusters number") {
-
-    val inputClusterNumber = new prop
-    assert(inputClusterNumber.getProp("inputClusterNumber").toInt > 1)
-  }
 
 
   // testing if the clustering is successfully done
 
   test("Checking Clustering") {
-    val testLocalData = new prop
 
-    val BrisbaneCityBike = spark.read.json(testLocalData.getProp("testLocalData"))
+    val BrisbaneCityBike = spark.read.json("DataInput/Brisbane_CityBike.json")
 
+    val assembler = new VectorAssembler()
+      .setInputCols(Array("latitude","longitude"))
+      .setOutputCol("features")
     // Creating an instance from "Classify.scala" Class to get the model of clustering
-    val mod = new Clustering
+    val kmeans = new KMeans()
+      .setK(3)
+      .setSeed(1L)
+      .setFeaturesCol("features")
+      .setPredictionCol("clusters")
 
-    //Creating Model
-    val modelToCluster = mod.getModel(BrisbaneCityBike)
+    // Building the Pipeline for clustering
+    val pipeline = new Pipeline().setStages(Array(assembler, kmeans))
+
+    // Running the clustering pipeline
+    val model = pipeline.fit(BrisbaneCityBike.toDF())
 
     // Adding Cluster Labels to our data
-    val clusters = modelToCluster.transform(BrisbaneCityBike)
+    val clusters = model.transform(BrisbaneCityBike)
 
     assert(clusters.toDF().columns.size > BrisbaneCityBike.columns.size)
 
