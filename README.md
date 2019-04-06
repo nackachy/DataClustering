@@ -2,7 +2,7 @@
 
 ## Description
 
-The purpose of this project is to cluster Brisbane_CityBike based on longitude and latitude. 
+The purpose of this project is to cluster ***Brisbane_CityBike*** based on ***longitude*** and ***latitude***. 
 
 ## Requirements
 
@@ -19,25 +19,29 @@ The purpose of this project is to cluster Brisbane_CityBike based on longitude a
   * Assembling Vectors
   * Training Model
 * Applying model to data
-* View clustering
+* Saving Clustered Data
 
 ## Configuration
 
-Before executing the code, you have to change the data path existing in "src/main/ressources/application.properties" and the cluster number of your choice (by default 3)
+The program needs somme properties to be executed. These properties are saved in ***config/application.properties***.
 
-    inputData=DataClustering/DataInput/Brisbane_CityBike.json
+    inputData=
     inputClusterNumber=
     master=
     appName=
     nameOfColumnCluster=
-    outPutData=
-    fileOutPutName=
+    outputData=
+    outputFileName=
+    outputFileFormat=
 
-* **inputData** is the path where Brisbane_CityBike.json exists.
-* **inputClusterNumber** is the number of clusters chosen to cluster the data.
-* **master
-* **appName** is the name of the app.
-* **nameOfColumnCluster** name of cluser columns.
+* **inputData** : Path of the data to be clustered.
+* **inputClusterNumber** : Cluster number to use in cluster.
+* **master** : The master URL for the cluster.
+* **appName** : Application name.
+* **nameOfColumnCluster** : Name of the new column wich contains the clusters.
+* **outputData** : Path where to save the clustered data.
+* **outputFileName** : Name of the clustered data.
+* **outputFileFormat** : Format of the clustered data to be saved
 * **outPutData** is the path where clustered Data will be saved.
 * **fileOutPutName** is the name chosen for outputData.
 
@@ -45,13 +49,22 @@ Before executing the code, you have to change the data path existing in "src/mai
 
 To build the project, run : 
 
-    sbt clean assembly
+    sbt assembly
     
 This will produce a jar containing the compiled project
 
-Then you can submit the job using **spark-submit** :
+Then you can submit the job using **spark-submit** in the **shell file**:
+   
+    cd DataClustering/scripts/shell
+    chmod +x spark-submit.sh
+    ./spark-submit.sh
 
-    spark-submit --class com.DataVectis.Clustering.MainCluster --master yarn DataClustering/scripts/dataclustering_2.11-0.1.0-    SNAPSHOT.jar
+##Project architecture
+
+  DataClustering/DataInput                                                                    
+  DataClustering/DataOutput                                                                   
+  DataClustering/config                                                                       
+  DataClustering/scripts   
 
 ## Results
 
@@ -65,7 +78,7 @@ This is how the result would look like.
 
 ***Data Plot***
 
-This plot is developped with an R code ***DataViz.R***.
+This plot is developped with an R code ***DataViz.R*** wich exists in ***DataClustering/scripts/R_Script***
 
 ![Data Plot](https://github.com/nackachy/DataClustering/blob/master/Map.png)
 
