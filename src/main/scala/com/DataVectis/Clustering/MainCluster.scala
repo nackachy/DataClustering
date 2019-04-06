@@ -48,17 +48,14 @@ object MainCluster {
     // Adding Cluster Labels to our data
     val clusters = modelToCluster.transform(BrisbaneCityBike)
 
-    //Show Data
-    clusters.drop("features").show()
 
 
     //saving Data
-
-
     val outCapture = new ByteArrayOutputStream
     withOut(outCapture) {
-      clusters.rdd.map(_.mkString(",")).collect.foreach(println)
+      clusters.drop("features").rdd.map(_.mkString(",")).collect.foreach(println)
     }
+
     //getting the result
     val result = new String(outCapture.toByteArray)
 
@@ -75,8 +72,16 @@ object MainCluster {
               ".txt")
     )
 
+    val os1 = fs.create(new Path(appProperties.getProp("outputData")
+      +"/"+
+      appProperties.getProp("fileOutPutName")+"_"
+      +getDate.replace(":","").replace("-","")+
+      ".csv")
+    )
+
     //writing the file
     os.write(result.getBytes)
+    os1.write(result.getBytes)
 
     logger.log(Level.INFO, "Clustered data has been saved in ", appProperties.getProp("outputData"))
 
