@@ -67,21 +67,13 @@ object MainCluster {
     val fs= FileSystem.get(conf)
     val os = fs.create(new Path(appProperties.getProp("outputData")
               +"/"+
-              appProperties.getProp("fileOutPutName")+"_"
+              appProperties.getProp("outputFileName")+"_"
               +getDate.replace(":","").replace("-","")+
-              ".txt")
-    )
-
-    val os1 = fs.create(new Path(appProperties.getProp("outputData")
-      +"/"+
-      appProperties.getProp("fileOutPutName")+"_"
-      +getDate.replace(":","").replace("-","")+
-      ".csv")
+              appProperties.getProp("outputFileFormat"))
     )
 
     //writing the file
     os.write(result.getBytes)
-    os1.write(result.getBytes)
 
     logger.log(Level.INFO, "Clustered data has been saved in ", appProperties.getProp("outputData"))
 
