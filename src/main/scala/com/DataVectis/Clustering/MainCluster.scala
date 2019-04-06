@@ -71,7 +71,7 @@ object MainCluster {
     val os = fs.create(new Path(appProperties.getProp("outputData")
               +"/"+
               appProperties.getProp("fileOutPutName")+"_"
-              +getDate+
+              +getDate.replace(":","").replace("-","")+
               ".txt")
     )
 
