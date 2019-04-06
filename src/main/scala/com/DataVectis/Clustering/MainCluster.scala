@@ -70,7 +70,7 @@ object MainCluster {
     val fs= FileSystem.get(conf)
     val os = fs.create(new Path(appProperties.getProp("outputData")
               +"/"+
-              appProperties.getProp("fileOutPutName")
+              appProperties.getProp("fileOutPutName")+"_"
               +getDate+
               ".txt")
     )
