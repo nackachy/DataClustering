@@ -16,13 +16,13 @@ class Clustering{
 
 
     // Initializing the KMeans clustering model (3 clusters to have)
-    val inputClusterNumber,nameOfColumnCluster = new prop
+    val appProperties = new prop
 
     val kmeans = new KMeans()
-      .setK(inputClusterNumber.getProp("inputClusterNumber").toInt)
+      .setK(appProperties.getProp("inputClusterNumber").toInt)
       .setSeed(1L)
       .setFeaturesCol("features")
-      .setPredictionCol(nameOfColumnCluster.getProp("nameOfColumnCluster"))
+      .setPredictionCol(appProperties.getProp("nameOfColumnCluster"))
 
     // Building the Pipeline for clustering
     val pipeline = new Pipeline().setStages(Array(assembler, kmeans))
