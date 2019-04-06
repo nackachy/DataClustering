@@ -72,7 +72,8 @@ object MainCluster {
               +"/"+
               appProperties.getProp("fileOutPutName")
               +getDate+
-              ".txt"))
+              ".txt")
+    )
 
     //writing the file
     os.write(result.getBytes)
