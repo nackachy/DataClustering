@@ -68,7 +68,7 @@ object MainCluster {
     //configuration
     val conf = new Configuration()
     val fs= FileSystem.get(conf)
-    val os = fs.create(new Path(appProperties.getProp("DataOutput")
+    val os = fs.create(new Path(appProperties.getProp("outputData")
               +"/"+
               appProperties.getProp("fileOutPutName")
               +getDate+
