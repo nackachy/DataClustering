@@ -10,6 +10,7 @@
 				<value>${queueName}</value>  
 			</property> 
 		</configuration> 
+		 <spark-opts>--executor-memory 20G --num-executors 50</spark-opts>
 		<exec>spark-submit.sh</exec> 
 		<file>/user/chiheb/DataClustering/scripts/shell/spark-submit.sh</file>
 		</shell>  <ok to="end"/>  <error to="fail"/></shell>
